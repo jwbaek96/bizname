@@ -20,6 +20,7 @@
         text-decoration: none;
         /* cursor: none; */
       }
+      a:hover{color: #3469db;text-decoration: none;}
       /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
         .close{
             position: absolute;top: 20px;right: 20px;
@@ -84,6 +85,7 @@
             .card-3d {width: 45vw;aspect-ratio: 1065 / 592;}
             .card-inner {transform: none;}
             .abs-img-profile img{max-width: 500px;}
+            .container{width: 80%;}
         }
         
         /* ======== */
@@ -94,7 +96,7 @@
             background-color: #ffffff;
         }
         .container {
-            width: 80%;
+            width: auto;
             margin: auto;
             display: flex;
             justify-content: center;
@@ -161,8 +163,31 @@
           }
         .info-content-title {font-weight: bold;color: #333;}
         .info-content-value {margin-top: 5px;color: #555;}
-        a {color: #3498db;text-decoration: none;}
-        a:hover {text-decoration: underline;}
+        .info-content-links{
+          display: flex;
+          justify-content: center;
+          gap: .5rem;
+          flex-wrap: wrap;
+        }
+        /* 노트 */
+        .note{
+          width: 100%;
+        }
+        .note-title{text-align: center; font-size: bold;}
+        .note-content{
+          padding: 1rem 20px;
+          text-align: left;
+          font-size: 0.85rem;
+        }
+        .note-content p {
+          margin: 0;
+        }
+        .note-content img {
+          width: 100%;
+          height: auto;
+          margin-top: 1rem;
+          border-radius: 8px;
+        }
     </style>
 </head>
 <body>
@@ -218,7 +243,7 @@
              </div> -->
              <div class="info-content contact">
                 <div class="info-content-title">Contact</div>
-                <!-- <div class="info-content-value">010-3432-4396</div> -->
+                <div class="info-content-value">010-3432-4396</div>
                 <div class="info-content-value">jwbaek96@gmail.com</div>
              </div>
              <!-- <div class="info-content email">
@@ -232,9 +257,19 @@
              <div class="info-content links">
                 <div class="info-content-title">Links</div>
                 <!-- <div class="info-content-value"><a href="https://example.com">https://example.com</a></div> -->
-                 <a href="https://www.instagram.com/jw.baek.96/"><span>Instagram</span></a>
-                 <a href="https://soundcloud.com/thisisoa"><span>SoundCloud</span></a>
+                 <div class="info-content-links">
+                   <a href="https://www.instagram.com/jw.baek.96/"><span>Instagram</span></a>
+                   <a href="https://soundcloud.com/thisisoa"><span>SoundCloud</span></a>
+                  </div>
              </div>
+        </section>
+        <section class="note">
+          <div class="note-title">Note.</div>
+          <div class="note-content">
+              *9월 13일부터 9월 20일까지 강서 아트리움에서 2025강서청년예술인전 전시작가로 참여합니다😊 놀러오세요!
+              <!-- <br><br>*OAD는 웹사이트 제작, PPT 디자인을 제공합니다. -->
+               <img src="./data/img/KakaoTalk_20250903_101420139.jpg" alt="" srcset="">
+          </div>
         </section>
     </div>
 </body>
