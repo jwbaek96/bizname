@@ -22,8 +22,8 @@
         }
         .abs,
         .abs-img-container{display: none;}
-
-        .abs-img-profile img{max-width: 500px;}
+        .abs-img-profile{padding: 1rem;}
+        .abs-img-profile img{max-width: 100%; border-radius: 15px;}
         
         /* 3D 카드 스타일 - 모바일 최적화 */
         .card-3d {
@@ -66,14 +66,9 @@
         
         /* 데스크탑 대응 */
         @media (min-width: 600px) {
-            .card-3d {
-                width: 40vw;
-                aspect-ratio: 1065 / 592;
-            }
-            .card-inner {
-                /* 데스크탑에서는 회전 없음 */
-                transform: none;
-            }
+            .card-3d {width: 45vw;aspect-ratio: 1065 / 592;}
+            .card-inner {transform: none;}
+            .abs-img-profile img{max-width: 500px;}
         }
         
         /* ======== */
