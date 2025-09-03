@@ -4,27 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JONGWHOUN BAEK</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        .abs{display: none;}
+        .close{
+            position: absolute;top: 20px;right: 20px;
+            font-size: 1.5rem;color: #333;
+            cursor: pointer;
+            z-index: 101;
+        }
+        .abs{
+            position: fixed; top: 0;left: 0; z-index: 100;
+            width: 100vw;height: 100vh;
+            width: 100dvw;height: 100dvh;
+            background: rgba(255, 255, 255, 0.164);
+            backdrop-filter: blur(10px);
+            display: flex;justify-content: center;align-items: center;
+        }
+        .abs,
+        .abs-img-container{display: none;}
+
+        .abs-img-profile img{max-width: 500px;}
+        
+        /* 3D 카드 스타일 - 모바일 최적화 */
+        .card-3d {
+            /* 원본 가로 비율 유지 */
+             /* 1065:592 비율 */
+            width: calc(80vh);
+            /* height: calc(80vw * 0.556); */
+            aspect-ratio: 1065 / 592;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s ease-in-out;
+            /* 모바일에서 카드 전체를 90도 회전 */
+            transform: rotate(90deg);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .card-front img, .card-back img {
+            width: 100%;
+            height: 100%;
+            /* 이미지는 원본 상태 유지 */
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        
+        /* 데스크탑 대응 */
+        @media (min-width: 600px) {
+            .card-3d {
+                width: 40vw;
+                aspect-ratio: 1065 / 592;
+            }
+            .card-inner {
+                /* 데스크탑에서는 회전 없음 */
+                transform: none;
+            }
+        }
+        
         /* ======== */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #ffffff;
         }
         .container {
             width: 80%;
             margin: auto;
-            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding-top: 2rem;
         }
-        .thumb-imgs, .info {margin: 20px 0;padding: 20px;background: #fff;}
-        .abs-img-container, .thumb-img-container {display: inline-block;margin-right: 20px;}
-        .abs-img-container img, .thumb-img-container img {width: 150px;height: auto;border-radius: 8px;}
+        .info {margin: 20px 0;padding: 20px;background: #ffffff00;}
+        .thumb-img-container {display: inline-block;margin-right: 20px;}
+        .thumb-img-container img {width: 150px;height: auto;border-radius: 8px;}
         /* 섬네일 이미지 섹션 */
         .thumb-imgs{
             --thumbnail-size: 150px;
-            --thumbnail-height: calc(var(--thumbnail-size) + 100px);
+            --thumbnail-gap: 70px;
+            --thumbnail-height: calc(var(--thumbnail-size) + var(--thumbnail-gap));
             position: relative;
             width: 100%;
             height: var(--thumbnail-height);
@@ -32,27 +107,48 @@
         .thumb-img-container{
             position: absolute;top: 50%;left: 50%;
             transform: translate(-50%, -50%);
-            border: .01rem solid #ccc;
+            /* border: .01rem solid #ccc; */
             width: 100%;max-width: var(--thumbnail-size);aspect-ratio: 1/1;
             display: flex;align-items: center;justify-content: center;
+            transition: all .3s ease-in-out;
+            cursor: pointer;
         }
         .thumb-img-container img{
             object-fit: cover;
             border-radius: 50%;
             border: .01rem solid #e4e4e4;
             width: 100%;max-width: var(--thumbnail-size);aspect-ratio: 1/1;
+            transition: all .3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         .thumb-img-container:nth-child(1){
             z-index: 1;
             left: calc(50% - var(--thumbnail-height)/4.5);}
         .thumb-img-container:nth-child(2){
             z-index: 0;
-            left: calc(50% + var(--thumbnail-height)/4.5);}
+            left: calc(50% + var(--thumbnail-height)/3.7);}
         .thumb-img-container:nth-child(2) img{
             width: 60%;
         }
+        /* 썸네일 호버 */
+        .thumb-hover-prev img,
+        .thumb-hover-next img {
+          width: 60%;
+          z-index: 1;
+        }
+        .thumb-img-container img:hover{width: 100%;}
+        .thumb-img-container:hover{z-index: 2;}
         /* 인포메이션 */
-        .info-content {margin-bottom: 15px;padding-bottom: 10px;border-bottom: 1px solid #eee;}
+        .info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+            max-width: 500px;
+        }
+        .info-content {
+            width: 100%;
+            margin-bottom: 15px;padding-bottom: 10px;border-bottom: 1px solid #eee;}
         .info-content-title {font-weight: bold;color: #333;}
         .info-content-value {margin-top: 5px;color: #555;}
         a {color: #3498db;text-decoration: none;}
@@ -62,21 +158,33 @@
 <body>
     <div class="container">
         <section class="abs">
+            <div class="close">
+                <i class="fas fa-times"></i>
+            </div>
             <!-- 프로필 이미지, 명함 이미지 -->
-                <div class="abs-img-container">
+                <div class="abs-img-container abs-img-profile">
                     <img src="profile.jpg" alt="Profile Image">
                 </div>
-                <div class="abs-img-container">
-                    <img src="card.jpg" alt="Card Image">
+                <div class="abs-img-container abs-img-card">
+                    <div class="card-3d">
+                        <div class="card-inner">
+                            <div class="card-front">
+                                <img src="card-front.png" alt="Card Front">
+                            </div>
+                            <div class="card-back">
+                                <img src="card-back.png" alt="Card Back">
+                            </div>
+                        </div>
+                    </div>
                 </div>
         </section>
         <section class="thumb-imgs">
             <!-- 프로필 이미지, 명함 이미지 -->
-             <div class="thumb-img-container">
+             <div class="thumb-img-container" data-type="profile">
                 <img src="profile.jpg" alt="Profile Image">
              </div>
-             <div class="thumb-img-container">
-                <img src="card.png" alt="Card Image">
+             <div class="thumb-img-container" data-type="card">
+                <img src="card-front.png" alt="Card Image">
              </div>
         </section>
         <section class="info">
@@ -113,3 +221,221 @@
     </div>
 </body>
 </html>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const thumbs = document.querySelectorAll('.thumb-img-container');
+  thumbs.forEach((thumb, idx) => {
+    thumb.addEventListener('mouseenter', function() {
+      // 이전 썸네일
+      if (thumbs[idx - 1]) {
+        thumbs[idx - 1].classList.add('thumb-hover-prev');
+      }
+      // 다음 썸네일
+      if (thumbs[idx + 1]) {
+        thumbs[idx + 1].classList.add('thumb-hover-next');
+      }
+    });
+    thumb.addEventListener('mouseleave', function() {
+      if (thumbs[idx - 1]) {
+        thumbs[idx - 1].classList.remove('thumb-hover-prev');
+      }
+      if (thumbs[idx + 1]) {
+        thumbs[idx + 1].classList.remove('thumb-hover-next');
+      }
+    });
+    thumb.addEventListener('click', function() {
+      const type = thumb.getAttribute('data-type');
+      // abs 섹션 보이기
+      const absSection = document.querySelector('.abs');
+      absSection.style.display = 'flex';
+      // 모든 abs-img-container 숨기기
+      document.querySelectorAll('.abs-img-container').forEach(el => {
+        el.style.display = 'none';
+      });
+      // 해당 타입만 보이기
+      if (type === 'profile') {
+        document.querySelector('.abs-img-profile').style.display = 'inline-block';
+    } else if (type === 'card') {
+        document.querySelector('.abs-img-card').style.display = 'inline-block';
+      }
+    });
+  });
+  const abs = document.querySelectorAll('.abs');
+  abs.forEach(section => {
+    const closeBtn = section.querySelector('.close');
+    closeBtn.addEventListener('click', function() {
+      section.style.display = 'none';
+    });
+    section.addEventListener('click', function() {
+      section.style.display = 'none';
+    });
+  });
+
+  // 3D 카드 드래그 회전 + 클릭 앞뒤 전환
+  const card3D = document.querySelector('.card-3d');
+  const cardInner = document.querySelector('.card-inner');
+  
+  if (card3D && cardInner) {
+    let isFlipped = false;
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let currentRotationY = 0;
+    let currentRotationX = 0;
+    let baseRotationZ = 0; // 모바일용 기본 90도 회전
+
+    // 모바일/데스크탑 구분 함수
+    function isMobile() {
+      return window.innerWidth < 600;
+    }
+
+    // 카드를 항상 정면으로 초기화
+    function resetCard() {
+      if (isMobile()) {
+        baseRotationZ = 90;
+        currentRotationY = 7;
+        currentRotationX = 11;
+      } else {
+        baseRotationZ = 0;
+        currentRotationY = -8;
+        currentRotationX = 7;
+      }
+      updateCardTransform();
+      isFlipped = false;
+    }
+
+    // 카드 transform 업데이트
+    function updateCardTransform() {
+      if (isMobile()) {
+        cardInner.style.transform = `rotate(${baseRotationZ}deg) rotateY(${currentRotationY}deg) rotateX(${currentRotationX}deg)`;
+      } else {
+        cardInner.style.transform = `rotateY(${currentRotationY}deg) rotateX(${currentRotationX}deg)`;
+      }
+    }
+
+    // 드래그 시작
+    function startDrag(clientX, clientY) {
+      isDragging = true;
+      startX = clientX;
+      startY = clientY;
+      cardInner.style.transition = 'none';
+    }
+
+    // 드래그 중
+    function drag(clientX, clientY) {
+      if (!isDragging) return;
+      
+      const deltaX = clientX - startX;
+      const deltaY = clientY - startY;
+      
+      if (isMobile()) {
+        // 모바일: 90도 회전되어 있으므로 X, Y축 바꿈
+        currentRotationY += deltaY * 0.5;  // 세로 드래그 → Y축 회전
+        currentRotationX += deltaX * 0.5;  // 가로 드래그 → X축 회전
+      } else {
+        // 데스크탑: 일반적인 드래그
+        currentRotationY += deltaX * 0.5;  // 가로 드래그 → Y축 회전
+        currentRotationX -= deltaY * 0.5;  // 세로 드래그 → X축 회전
+      }
+      
+      // 회전 범위 제한
+    //   currentRotationX = Math.max(-60, Math.min(60, currentRotationX));
+      
+      updateCardTransform();
+      
+      startX = clientX;
+      startY = clientY;
+    }
+
+    // 드래그 종료
+    function stopDrag() {
+      isDragging = false;
+      cardInner.style.transition = 'transform 0.3s ease-out';
+    }
+
+    // 마우스 이벤트
+    card3D.addEventListener('mousedown', function(e) {
+      startDrag(e.clientX, e.clientY);
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', function(e) {
+      drag(e.clientX, e.clientY);
+    });
+
+    document.addEventListener('mouseup', stopDrag);
+
+    // 터치 이벤트
+    card3D.addEventListener('touchstart', function(e) {
+      startDrag(e.touches[0].clientX, e.touches[0].clientY);
+      e.preventDefault();
+    });
+
+    document.addEventListener('touchmove', function(e) {
+      if (isDragging) {
+        drag(e.touches[0].clientX, e.touches[0].clientY);
+        e.preventDefault();
+      }
+    });
+
+    document.addEventListener('touchend', stopDrag);
+
+    // 카드 클릭 시 앞뒤 전환 (드래그가 아닌 경우에만)
+    let clickStartTime = 0;
+    card3D.addEventListener('mousedown', function() {
+      clickStartTime = Date.now();
+    });
+
+    card3D.addEventListener('click', function(e) {
+      e.stopPropagation();
+      
+      // 짧은 클릭인 경우에만 앞뒤 전환 (드래그와 구분)
+      if (Date.now() - clickStartTime < 200) {
+        if (isFlipped) {
+          // 앞면으로
+          if (isMobile()) {
+            currentRotationY = 7;
+            currentRotationX = 11;
+          } else {
+            currentRotationY = -8;
+            currentRotationX = 7;
+          }
+          isFlipped = false;
+        } else {
+          // 뒷면으로
+          currentRotationY = 180;
+          currentRotationX = 0;
+          isFlipped = true;
+        }
+        updateCardTransform();
+      }
+    });
+
+    // 화면 크기 변경 시 리셋
+    window.addEventListener('resize', resetCard);
+
+    // 카드가 처음 열릴 때 정면으로 리셋
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+          const target = mutation.target;
+          if (target.classList.contains('abs-img-card') && 
+              target.style.display === 'inline-block') {
+            resetCard();
+          }
+        }
+      });
+    });
+
+    // .abs-img-card 요소 감시
+    const cardContainer = document.querySelector('.abs-img-card');
+    if (cardContainer) {
+      observer.observe(cardContainer, { 
+        attributes: true, 
+        attributeFilter: ['style'] 
+      });
+    }
+  }
+
+});
+</script>
