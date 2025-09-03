@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JONGWHOUN BAEK</title>
+    <style>
+        .abs{display: none;}
+        /* ======== */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        .thumb-imgs, .info {margin: 20px 0;padding: 20px;background: #fff;}
+        .abs-img-container, .thumb-img-container {display: inline-block;margin-right: 20px;}
+        .abs-img-container img, .thumb-img-container img {width: 150px;height: auto;border-radius: 8px;}
+        /* 섬네일 이미지 섹션 */
+        .thumb-imgs{
+            --thumbnail-size: 150px;
+            --thumbnail-height: calc(var(--thumbnail-size) + 100px);
+            position: relative;
+            width: 100%;
+            height: var(--thumbnail-height);
+        }
+        .thumb-img-container{
+            position: absolute;top: 50%;left: 50%;
+            transform: translate(-50%, -50%);
+            border: .01rem solid #ccc;
+            width: 100%;max-width: var(--thumbnail-size);aspect-ratio: 1/1;
+            display: flex;align-items: center;justify-content: center;
+        }
+        .thumb-img-container img{
+            object-fit: cover;
+            border-radius: 50%;
+            border: .01rem solid #e4e4e4;
+            width: 100%;max-width: var(--thumbnail-size);aspect-ratio: 1/1;
+        }
+        .thumb-img-container:nth-child(1){
+            z-index: 1;
+            left: calc(50% - var(--thumbnail-height)/4.5);}
+        .thumb-img-container:nth-child(2){
+            z-index: 0;
+            left: calc(50% + var(--thumbnail-height)/4.5);}
+        .thumb-img-container:nth-child(2) img{
+            width: 60%;
+        }
+        /* 인포메이션 */
+        .info-content {margin-bottom: 15px;padding-bottom: 10px;border-bottom: 1px solid #eee;}
+        .info-content-title {font-weight: bold;color: #333;}
+        .info-content-value {margin-top: 5px;color: #555;}
+        a {color: #3498db;text-decoration: none;}
+        a:hover {text-decoration: underline;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="abs">
+            <!-- 프로필 이미지, 명함 이미지 -->
+                <div class="abs-img-container">
+                    <img src="profile.jpg" alt="Profile Image">
+                </div>
+                <div class="abs-img-container">
+                    <img src="card.jpg" alt="Card Image">
+                </div>
+        </section>
+        <section class="thumb-imgs">
+            <!-- 프로필 이미지, 명함 이미지 -->
+             <div class="thumb-img-container">
+                <img src="profile.jpg" alt="Profile Image">
+             </div>
+             <div class="thumb-img-container">
+                <img src="card.png" alt="Card Image">
+             </div>
+        </section>
+        <section class="info">
+            <!-- 이름, 소속, 직함, 연락처, 이메일, SNS, 링크 -->
+             <div class="info-content name">
+                <!-- <div class="info-content-title">Name</div> -->
+                <div class="info-content-value">백종훈</div>
+             </div>
+             <div class="info-content company">
+                <!-- <div class="info-content-title">Company</div> -->
+                <div class="info-content-value">오에이디자인스튜디오</div>
+             </div>
+             <div class="info-content position">
+                <div class="info-content-title"></div>
+                <div class="info-content-value">대표 | 작가</div>
+             </div>
+             <div class="info-content contact">
+                <div class="info-content-title">Contact</div>
+                <div class="info-content-value">010-1234-5678</div>
+             </div>
+             <div class="info-content email">
+                <div class="info-content-title">Email</div>
+                <div class="info-content-value">jwbaek96@gmail.com</div>
+             </div>
+             <div class="info-content sns">
+                <div class="info-content-title">SNS</div>
+                <!-- <div class="info-content-value">Twitter: @example</div> -->
+             </div>
+             <div class="info-content links">
+                <div class="info-content-title">Links</div>
+                <!-- <div class="info-content-value"><a href="https://example.com">https://example.com</a></div> -->
+             </div>
+        </section>
+    </div>
+</body>
+</html>
