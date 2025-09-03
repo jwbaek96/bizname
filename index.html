@@ -87,13 +87,13 @@
             flex-direction: column;
             padding-top: 2rem;
         }
-        .info {margin: 20px 0;padding: 20px;background: #ffffff00;}
+        .info {padding: 0 20px 20px;background: #ffffff00;}
         .thumb-img-container {display: inline-block;margin-right: 20px;}
         .thumb-img-container img {width: 150px;height: auto;border-radius: 8px;}
         /* 섬네일 이미지 섹션 */
         .thumb-imgs{
             --thumbnail-size: 150px;
-            --thumbnail-gap: 70px;
+            --thumbnail-gap: 10px;
             --thumbnail-height: calc(var(--thumbnail-size) + var(--thumbnail-gap));
             position: relative;
             width: 100%;
@@ -118,19 +118,16 @@
         }
         .thumb-img-container:nth-child(1){
             z-index: 1;
-            left: calc(50% - var(--thumbnail-height)/4.5);}
+            left: calc(50% - var(--thumbnail-height)/3.5);}
         .thumb-img-container:nth-child(2){
             z-index: 0;
-            left: calc(50% + var(--thumbnail-height)/3.7);}
+            left: calc(50% + var(--thumbnail-height)/2.7);}
         .thumb-img-container:nth-child(2) img{
             width: 60%;
         }
         /* 썸네일 호버 */
         .thumb-hover-prev img,
-        .thumb-hover-next img {
-          width: 60%;
-          z-index: 1;
-        }
+        .thumb-hover-next img {width: 70%;z-index: 1;}
         .thumb-img-container img:hover{width: 100%;}
         .thumb-img-container:hover{z-index: 2;}
         /* 인포메이션 */
@@ -143,7 +140,10 @@
         }
         .info-content {
             width: 100%;
-            margin-bottom: 15px;padding-bottom: 10px;border-bottom: 1px solid #eee;}
+            padding: 15px 0 15px 0;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+          }
         .info-content-title {font-weight: bold;color: #333;}
         .info-content-value {margin-top: 5px;color: #555;}
         a {color: #3498db;text-decoration: none;}
@@ -186,24 +186,30 @@
             <!-- 이름, 소속, 직함, 연락처, 이메일, SNS, 링크 -->
              <div class="info-content name">
                 <!-- <div class="info-content-title">Name</div> -->
-                <div class="info-content-value">백종훈</div>
+                <div class="info-content-value">
+                  <!-- <span style="font-size: 1.5rem; font-weight: bold;">JONGWHOUN BAEK</span> -->
+                  <span style="font-size: 1.5rem; font-weight: bold;">백종훈</span>
+                  <span style="font-size: .8rem;">대표 | 작가</span>
+                  <br><span>오에이디자인스튜디오</span>
+                </div>
              </div>
-             <div class="info-content company">
-                <!-- <div class="info-content-title">Company</div> -->
+             <!-- <div class="info-content company">
+                <div class="info-content-title">Company</div>
                 <div class="info-content-value">오에이디자인스튜디오</div>
              </div>
              <div class="info-content position">
-                <div class="info-content-title"></div>
+                <div class="info-content-title">Position</div>
                 <div class="info-content-value">대표 | 작가</div>
-             </div>
+             </div> -->
              <div class="info-content contact">
                 <div class="info-content-title">Contact</div>
                 <div class="info-content-value">010-1234-5678</div>
-             </div>
-             <div class="info-content email">
-                <div class="info-content-title">Email</div>
                 <div class="info-content-value">jwbaek96@gmail.com</div>
              </div>
+             <!-- <div class="info-content email">
+                <div class="info-content-title">Email</div>
+                <div class="info-content-value">jwbaek96@gmail.com</div>
+             </div> -->
              <div class="info-content sns">
                 <div class="info-content-title">SNS</div>
                 <!-- <div class="info-content-value">Twitter: @example</div> -->
