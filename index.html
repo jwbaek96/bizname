@@ -29,7 +29,7 @@
         .card-3d {
             /* 원본 가로 비율 유지 */
              /* 1065:592 비율 */
-            width: calc(80vh);
+            width: calc(70vh);
             /* height: calc(80vw * 0.556); */
             aspect-ratio: 1065 / 592;
             perspective: 1000px;
@@ -366,19 +366,58 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('mouseup', stopDrag);
 
     // 터치 이벤트
+    let touchStartTime = 0;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let hasDragged = false;
+
     card3D.addEventListener('touchstart', function(e) {
+      touchStartTime = Date.now();
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      hasDragged = false;
       startDrag(e.touches[0].clientX, e.touches[0].clientY);
       e.preventDefault();
     });
 
     document.addEventListener('touchmove', function(e) {
       if (isDragging) {
+        const moveDistance = Math.abs(e.touches[0].clientX - touchStartX) + Math.abs(e.touches[0].clientY - touchStartY);
+        if (moveDistance > 10) { // 10px 이상 움직이면 드래그로 간주
+          hasDragged = true;
+        }
         drag(e.touches[0].clientX, e.touches[0].clientY);
         e.preventDefault();
       }
     });
 
-    document.addEventListener('touchend', stopDrag);
+    document.addEventListener('touchend', function(e) {
+      const touchDuration = Date.now() - touchStartTime;
+      
+      // 짧은 터치(300ms 미만)이고 드래그하지 않았으면 탭으로 간주
+      if (touchDuration < 300 && !hasDragged) {
+        // 앞뒤 전환 로직
+        if (isFlipped) {
+          // 앞면으로
+          if (isMobile()) {
+            currentRotationY = 7;
+            currentRotationX = 11;
+          } else {
+            currentRotationY = -8;
+            currentRotationX = 7;
+          }
+          isFlipped = false;
+        } else {
+          // 뒷면으로
+          currentRotationY = 180;
+          currentRotationX = 0;
+          isFlipped = true;
+        }
+        updateCardTransform();
+      }
+      
+      stopDrag();
+    });
 
     // 카드 클릭 시 앞뒤 전환 (드래그가 아닌 경우에만)
     let clickStartTime = 0;
